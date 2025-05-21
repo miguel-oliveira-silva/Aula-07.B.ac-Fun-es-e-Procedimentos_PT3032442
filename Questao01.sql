@@ -29,4 +29,12 @@ BEGIN
 
         SET @i = @i + 1;
     END;
+
+        SET @intervaloMax = @intervaloMin + @intervalo;
+        SELECT 
+            @intervaloMax AS valorMinimo, 
+            @intervaloMax AS valorMaximo, 
+            COUNT(*) AS total
+        FROM Professors 
+        WHERE salary >= @intervaloMin AND salary < @intervaloMax;
 END;

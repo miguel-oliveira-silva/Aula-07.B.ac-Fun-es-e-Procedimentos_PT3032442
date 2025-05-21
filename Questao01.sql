@@ -9,7 +9,7 @@ BEGIN
     DECLARE @i INT = 0;
 
     -- Obter o salário mínimo e máximo
-    SELECT @min = MIN(salary), @max = MAX(salary) FROM Professors;
+    SELECT @min = MIN(salary), @max = MAX(salary) FROM instructor;
 
     -- Calcular tamanho dos intervalos
     SET @intervalo = (@max - @min) / @num;
@@ -24,7 +24,7 @@ BEGIN
             @intervaloMin AS valorMinimo, 
             @intervaloMax AS valorMaximo, 
             COUNT(*) AS total
-        FROM Professors 
+        FROM instructor 
         WHERE salary >= @intervaloMin AND salary < @intervaloMax;
 
         SET @i = @i + 1;
@@ -34,6 +34,6 @@ BEGIN
             @intervaloMax AS valorMinimo, 
             @intervaloMax AS valorMaximo, 
             COUNT(*) AS total
-        FROM Professors 
+        FROM instructor
         WHERE salary >= @intervaloMax;
 END;

@@ -3,37 +3,42 @@ AS
 BEGIN
     DECLARE @min DECIMAL(10,2);
     DECLARE @max DECIMAL(10,2);
-    DECLARE @intervalo DECIMAL(10,2);
+    declare @intervalo DECIMAL(10,2);
     DECLARE @intervaloMin DECIMAL(10,2);
     DECLARE @intervaloMax DECIMAL(10,2);
     DECLARE @i INT = 0;
 
-    -- Obter o salário mínimo e máximo
-    SELECT @min = MIN(salary), @max = MAX(salary) FROM instructor;
+    CREATE TABLE #Histograma (
+        valorMinimo DECIMAL(10,2),
+        valorMaximo DECIMAL(10,2),
+        total INT
+    );
 
-    -- Calcular tamanho dos intervalos
-    SET @intervalo = (@max - @min) / @num;
+SELECT @min = MIN(salary), @max = MAX(salary) FROM instructor;
 
-    -- Iterar sobre os intervalos e calcular os professores por faixa
+ SET @intervalo = (@max - @min) / @num;
     WHILE @i < @num
-    BEGIN
-        SET @intervaloMin = @min + (@i * @intervalo);
-        SET @intervaloMax = @intervaloMin + @intervalo;
-
-        SELECT 
-            @intervaloMin AS valorMinimo, 
-            @intervaloMax AS valorMaximo, 
-            COUNT(*) AS total
-        FROM instructor 
-        WHERE salary >= @intervaloMin AND salary < @intervaloMax;
-
+        BEGIN
+            SET @intervaloMin = @min + (@i * @intervalo);
+            SET @intervaloMax = @intervaloMin + @intervalo;
+    
+            INSERT INTO #Histograma
+            SELECT 
+               @intervaloMin as valorMinimo, 
+                @intervaloMax as valorMaximo, 
+                COUNT(*) as Total
+            FROM instructor 
+            WHERE salary >= @intervaloMin AND salary < @intervaloMax;
         SET @i = @i + 1;
-    END;
-
+        END;
+         INSERT INTO #Histograma
+           INSERT INTO #Histograma
         SELECT 
-            @intervaloMax AS valorMinimo, 
-            @intervaloMax AS valorMaximo, 
-            COUNT(*) AS total
-        FROM instructor
-        WHERE salary >= @intervaloMax;
-END;
+            @intervaloMax as valorMinimo, 
+            @max as valorMaximo, 
+            COUNT(*) as Total
+    FROM instructor 
+    WHERE salary >= @intervaloMax;
+
+    SELECT * FROM #Histograma;
+END; 

@@ -40,4 +40,4 @@ SELECT @min = MIN(salary), @max = MAX(salary) FROM instructor;
     WHERE salary >= @intervaloMax;
 
     SELECT * FROM #Histograma;
-END; 
+END

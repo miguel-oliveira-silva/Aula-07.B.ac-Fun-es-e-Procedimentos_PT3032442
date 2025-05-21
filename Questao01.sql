@@ -32,7 +32,6 @@ SELECT @min = MIN(salary), @max = MAX(salary) FROM instructor;
         SET @i = @i + 1;
         END;
          INSERT INTO #Histograma
-           INSERT INTO #Histograma
         SELECT 
             @intervaloMax as valorMinimo, 
             @max as valorMaximo, 
